@@ -28,4 +28,16 @@ This plugin can be installed with a varity of plugin managers, e.g., [vim-plug](
 Plug 'liuchengxu/eleline.vim'
 ```
 
+This plugin you can installed via [Pathogen](https://github.com/tpope/vim-pathogen)
+
+```bash
+cd ~/.vim/bundle && git clone https://github.com/MaraniMatias/eleline.vim
+```
+
+If you using [papercolor-theme](https://github.com/NLKNguyen/papercolor-theme)
+
+```bash
+cd ~/.vim/bundle && git checkout for-paper-color
+```
+
 It's encouraged to fork [eleline.vim](https://github.com/liuchengxu/eleline.vim) to make your own custom vim statusline.
