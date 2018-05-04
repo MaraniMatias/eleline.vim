@@ -112,7 +112,8 @@ function! s:MyStatusLine()
       let l:buf_num = "%1* %{S_buf_num()} ❖ %{winnr()} %*"
   endif
   let l:paste = "%#paste#%{&paste?'PASTE ':''}%*"
-  let l:tot = '%2*[TOT:%{S_buf_total_num()}]%*'
+  " let l:tot = '%2*[TOT:%{S_buf_total_num()}]%*'
+  let l:tot = '%2*[%{S_buf_total_num()}]%*'
   let l:fs = '%3* %{S_file_size(@%)} %*'
   let l:fp = '%4* %{S_full_path()} %*'
   let l:branch = '%6*%{S_fugitive()}%*'
@@ -126,7 +127,8 @@ function! s:MyStatusLine()
     let l:pos = '%8* %l/%L:%c%V |'
   endif
   let l:enc = " %{''.(&fenc!=''?&fenc:&enc).''} | %{(&bomb?\",BOM\":\"\")}"
-  let l:ff = '%{&ff} %*'
+  " let l:ff = '%{&ff} %*'
+  let l:ff = ''
   let l:pct = '%9* %P %*'
 
   return l:buf_num.l:paste.l:tot.'%<'.l:fs.l:fp.l:branch.l:gutter.l:ale_e.l:ale_w.
