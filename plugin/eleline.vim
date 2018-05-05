@@ -126,7 +126,7 @@ function! s:MyStatusLine()
   else
     let l:pos = '%8* %l/%L:%c%V |'
   endif
-  let l:enc = " %{''.(&fenc!=''?&fenc:&enc).''} | %{(&bomb?\",BOM\":\"\")}"
+  let l:enc = " %{''.(&fenc!=''?&fenc:&enc).''} %{(&bomb?\",BOM\":\"\")}"
   " let l:ff = '%{&ff} %*'
   let l:ff = ''
   let l:pct = '%9* %P %*'
