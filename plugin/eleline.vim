@@ -128,7 +128,7 @@ function! s:MyStatusLine()
   endif
   let l:enc = " %{''.(&fenc!=''?&fenc:&enc).''} %{(&bomb?\",BOM\":\"\")}"
   " let l:ff = '%{&ff} %*'
-  let l:ff = ''
+  let l:ff = "%9*[%{strftime('%R',getftime(expand('%')))}]%*"
   let l:pct = '%9* %P %*'
 
   return l:buf_num.l:paste.l:tot.'%<'.l:fs.l:fp.l:branch.l:gutter.l:ale_e.l:ale_w.
