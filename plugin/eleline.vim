@@ -130,17 +130,22 @@ function! s:MyStatusLine()
   let l:tags = '%{S_gutentags()}'
   let l:m_r_f = '%7* %m%r%y %*'
   if s:font
-    let l:pos = '%8* '. "\ue0a1 %l/%L:%c%V |"
+    " let l:pos = '%8* '. "\ue0a1 %l/%L:%c%V |"
+    let l:pos = '%8* '. "\ue0a1 %l/%L:%c%V"
   else
-    let l:pos = '%8* %l/%L:%c%V |'
+    " let l:pos = '%8* %l/%L:%c%V |'
+    let l:pos = '%8* %l/%L:%c%V'
   endif
-  let l:enc = " %{''.(&fenc!=''?&fenc:&enc).''} %{(&bomb?\",BOM\":\"\")}"
+  " let l:enc = " %{''.(&fenc!=''?&fenc:&enc).''} %{(&bomb?\",BOM\":\"\")}"
+  let l:enc = "%{(&bomb?\",BOM\":\"\")} "
   " let l:ff = '%{&ff} %*'
   let l:ff = "%9*[%{strftime('%R',getftime(expand('%')))}]%*"
   let l:pct = '%9* %P %*'
 
+  " return l:buf_num.l:paste.l:tot.'%<'.l:fs.l:fp.l:branch.l:gutter.l:ale_e.l:ale_w.
+  "      \ '%='.l:tags.l:m_r_f.l:pos.l:enc.l:ff.l:pct
   return l:buf_num.l:paste.l:tot.'%<'.l:fs.l:fp.l:branch.l:gutter.l:ale_e.l:ale_w.
-        \ '%='.l:tags.l:m_r_f.l:pos.l:enc.l:ff.l:pct
+        \ '%='.l:tags.l:m_r_f.l:pos.l:enc.l:pct.l:ff
 endfunction
 
 let s:colors = {
