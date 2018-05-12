@@ -87,6 +87,13 @@ function! S_gitgutter()
   return ''
 endfunction
 
+function! S_gutentags()
+  if exists('b:gutentags_files')
+    return gutentags#statusline()
+  endif
+  return ''
+endfunction
+
 " The decoration of statusline was originally stealed from
 " https://github.com/junegunn/dotfiles/blob/master/vimrc.
 "
@@ -120,6 +127,7 @@ function! s:MyStatusLine()
   let l:gutter = '%{S_gitgutter()}'
   let l:ale_e = '%#ale_error#%{S_ale_error()}%*'
   let l:ale_w = '%#ale_warning#%{S_ale_warning()}%*'
+  let l:tags = '%{S_gutentags()}'
   let l:m_r_f = '%7* %m%r%y %*'
   if s:font
     let l:pos = '%8* '. "\ue0a1 %l/%L:%c%V |"
@@ -132,13 +140,14 @@ function! s:MyStatusLine()
   let l:pct = '%9* %P %*'
 
   return l:buf_num.l:paste.l:tot.'%<'.l:fs.l:fp.l:branch.l:gutter.l:ale_e.l:ale_w.
-        \ '%='.l:m_r_f.l:pos.l:enc.l:ff.l:pct
+        \ '%='.l:tags.l:m_r_f.l:pos.l:enc.l:ff.l:pct
 endfunction
 
 let s:colors = {
-            \   140 : '#af87d7', 149 : '#99cc66', 171 : '#d75fd7',
-            \   178 : '#ffbb7d', 184 : '#ffe920', 208 : '#ff8700',
-            \   232 : '#333300', 197 : '#cc0033', 214 : '#ffff66',
+            \   140 : '#af87d7', 149 : '#99cc66', 160 : '#d70000',
+            \   171 : '#d75fd7', 178 : '#ffbb7d', 184 : '#ffe920',
+            \   208 : '#ff8700', 232 : '#333300', 197 : '#cc0033',
+            \   214 : '#ffff66',
             \
             \   235 : '#262626', 236 : '#303030', 237 : '#3a3a3a',
             \   238 : '#444444', 239 : '#4e4e4e', 240 : '#585858',
@@ -147,8 +156,6 @@ let s:colors = {
             \   247 : '#9e9e9e', 248 : '#a8a8a8', 249 : '#b2b2b2',
             \   250 : '#bcbcbc', 251 : '#c6c6c6', 252 : '#d0d0d0',
             \   253 : '#dadada', 254 : '#e4e4e4', 255 : '#eeeeee',
-            \
-            \   7   : '#c0c0c0', 196 : '#ff0000', 179 : '#d7af5f', 39  : '#00afff',
             \ }
 
 function! s:hi(group, fg, bg, ...)
@@ -176,13 +183,13 @@ if has('termguicolors') && &termguicolors
 endif
 
 function! s:hi_statusline()
-  call s:hi('User1'      , 7 , s:bg+8 )
-  call s:hi('paste'      , 232 , s:bg+1  , 'bold')
-  call s:hi('User2'      , 178 , s:bg+6 )
-  call s:hi('User3'      , 250 , s:bg+4 )
-  call s:hi('User4'      , 39, s:bg+3 , 'bold' )
-  call s:hi('User5'      , 208 , s:bg+2 )
-  call s:hi('User6'      , 184 , s:bg+3 , 'bold' )
+  call s:hi('User1'      , 232 , 178  )
+  call s:hi('paste'      , 232 , 178    , 'bold')
+  call s:hi('User2'      , 178 , s:bg+8 )
+  call s:hi('User3'      , 250 , s:bg+6 )
+  call s:hi('User4'      , 171 , s:bg+4 , 'bold' )
+  call s:hi('User5'      , 208 , s:bg+3 )
+  call s:hi('User6'      , 184 , s:bg+2 , 'bold' )
 
   call s:hi('gutter'      , 184 , s:bg+2)
   call s:hi('ale_error'   , 197 , s:bg+2)
@@ -197,11 +204,11 @@ endfunction
 
 function! InsertStatuslineColor(mode)
   if a:mode == 'i'
-    call s:hi('User1' , 239 ,  179 )
+    call s:hi('User1' , 251 , s:bg+8 )
   elseif a:mode == 'r'
-    call s:hi('User1' , 239 ,  196 )
+    call s:hi('User1' , 232 ,  160 )
   else
-    call s:hi('User1' , 7   , s:bg+8 )
+    call s:hi('User1' , 232 , 178  )
   endif
 endfunction
 
@@ -226,7 +233,7 @@ augroup eleline
   " Change colors for insert mode
   autocmd InsertEnter * call InsertStatuslineColor(v:insertmode)
   autocmd InsertChange * call InsertStatuslineColor(v:insertmode)
-  autocmd InsertLeave * call s:hi('User1'      , 7 , s:bg+8 )
+  autocmd InsertLeave * call s:hi('User1' , 232 , 178  )
 augroup END
 
 let &cpoptions = s:save_cpo
