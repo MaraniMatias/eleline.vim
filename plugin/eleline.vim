@@ -239,7 +239,7 @@ augroup eleline
   " Change colors for insert mode
   autocmd InsertEnter * call InsertStatuslineColor(v:insertmode)
   autocmd InsertChange * call InsertStatuslineColor(v:insertmode)
-  autocmd InsertLeave * call s:hi('User1' , 232 , 178  )
+  autocmd InsertLeave * call s:hi('User1'      , 7 , s:bg+8 )
 augroup END
 
 let &cpoptions = s:save_cpo
