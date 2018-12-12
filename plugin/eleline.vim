@@ -102,7 +102,7 @@ function! S_fugitive(...) abort
     let s:jobs[job_id] = root
   elseif exists('g:loaded_fugitive')
     let l:head = fugitive#head()
-    let l:symbol = s:font ? " \ue0a0 " : ' Git:'
+    let l:symbol = s:font ? " \ue0a0 " : ''
     return empty(l:head) ? '' : l:symbol.l:head . ' '
   endif
 
@@ -114,7 +114,7 @@ function! s:branch(channel, message) abort
     let l:job = ch_getjob(a:channel)
     let l:job_id = matchstr(string(l:job), '\d\+')
     if !has_key(s:jobs, l:job_id) | return | endif
-    let l:branch = substitute(a:message, '*', s:font ? " \ue0a0" : ' Git:', '')
+    let l:branch = substitute(a:message, '*', s:font ? " \ue0a0" : '', '')
     call s:SetGitStatus(s:cwd, l:branch.' ')
     call remove(s:jobs, l:job_id)
   endif
@@ -125,7 +125,7 @@ function! s:JobHandler(job_id, data, event) dict abort
   if v:dying | return | endif
   let l:cur_branch = join(filter(self.stdout, 'v:val =~ "*"'))
   if !empty(l:cur_branch)
-    let l:branch = substitute(l:cur_branch, '*', s:font ? " \ue0a0" : ' Git:', '')
+    let l:branch = substitute(l:cur_branch, '*', s:font ? " \ue0a0" : '', '')
     call s:SetGitStatus(self.cwd, l:branch.' ')
   else
     let errs = join(self.stderr)
