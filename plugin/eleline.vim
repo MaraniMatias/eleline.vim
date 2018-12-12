@@ -212,9 +212,8 @@ function! s:StatusLine()
   let l:branch = '%6*%{S_fugitive()}%*'
   let l:buf_num = '%1* '.(has('gui_running')?'%n':'%{S_buf_num()}')." ❖ %{winnr()} %*"
   let l:coc = '%{S_coc()}'
-  " let l:enc = "%{(&bomb?\",BOM\":\"\")} "
-  let l:enc = " %{''.(&fenc!=''?&fenc:&enc).''} | %{(&bomb?\",BOM \":\"\")}"
-  " let l:ff = '%{&ff} %*'
+  " let l:enc = " %{''.(&fenc!=''?&fenc:&enc).''} | %{(&bomb?\",BOM \":\"\")}"
+  let l:enc = "%{(&bomb?\",BOM\":\"\")} "
   let l:ff = "%9*[%{strftime('%R',getftime(expand('%')))}]%*"
   let l:fp = '%4* %{S_full_path()} %*'
   let l:fs = '%3* %{S_file_size(@%)} %*'
