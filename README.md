@@ -27,6 +27,18 @@ Don't forget to `set laststatus=2` to always display statusline.
 
 ## Usage
 
+This plugin you can installed via [Pathogen](https://github.com/tpope/vim-pathogen)
+
+```bash
+cd ~/.vim/bundle && git clone https://github.com/MaraniMatias/eleline.vim
+```
+
+If you using [papercolor-theme](https://github.com/NLKNguyen/papercolor-theme)
+
+```bash
+cd ~/.vim/bundle && git checkout for-paper-color
+```
+
 It's encouraged to fork [eleline.vim](https://github.com/liuchengxu/eleline.vim) to make your own custom vim statusline.
 
 ## Customization
