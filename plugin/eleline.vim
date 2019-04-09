@@ -30,7 +30,7 @@ function! ElelineBufnrWinnr() abort
 endfunction
 
 function! ElelineTotalBuf() abort
-  return '[TOT:'.len(filter(range(1, bufnr('$')), 'buflisted(v:val)')).']'
+  return '['.len(filter(range(1, bufnr('$')), 'buflisted(v:val)')).']'
 endfunction
 
 function! ElelinePaste() abort
@@ -212,7 +212,8 @@ function! s:StatusLine() abort
   let l:fsize = '%#ElelineFsize#%{ElelineFsize(@%)}%*'
   let l:m_r_f = '%#Eleline7# %m%r%y %*'
   let l:pos = '%#Eleline8# '.(s:font?"\ue0a1":'').'%l/%L:%c%V |'
-  let l:enc = ' %{&fenc != "" ? &fenc : &enc} | %{&bomb ? ",BOM " : ""}'
+  " let l:enc = ' %{&fenc != "" ? &fenc : &enc} | %{&bomb ? ",BOM " : ""}'
+  let l:enc = ' %{&bomb ? ",BOM " : ""}'
   let l:ff = '%{&ff} %*'
   let l:pct = '%#Eleline9# %P %*'
   return l:prefix.l:tot.'%<'.l:fsize.l:common
