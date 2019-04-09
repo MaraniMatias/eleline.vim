@@ -26,7 +26,7 @@ function! ElelineBufnrWinnr() abort
     endfunction
     let l:bufnr = l:bufnr > 20 ? l:bufnr : s:circled_num(l:bufnr).' '
   endif
-  return '  '.l:bufnr." ❖ ".winnr().' '
+  return ' '.l:bufnr."❖ ".winnr().' '
 endfunction
 
 function! ElelineTotalBuf() abort
@@ -111,7 +111,7 @@ function! ElelineGitBranch(...) abort
     let s:jobs[job_id] = root
   elseif exists('g:loaded_fugitive')
     let l:head = fugitive#head()
-    let l:symbol = s:font ? " \ue0a0 " : ' Git:'
+    let l:symbol = s:font ? " \ue0a0 " : ' '
     return empty(l:head) ? '' : l:symbol.l:head . ' '
   endif
 
@@ -123,7 +123,7 @@ function! s:out_cb(channel, message) abort
     let l:job = ch_getjob(a:channel)
     let l:job_id = matchstr(string(l:job), '\d\+')
     if !has_key(s:jobs, l:job_id) | return | endif
-    let l:branch = substitute(a:message, '*', s:font ? "  \ue0a0" : '  Git:', '')
+    let l:branch = substitute(a:message, '*', s:font ? "  \ue0a0" : ' ', '')
     call s:SetGitBranch(s:cwd, l:branch.' ')
     call remove(s:jobs, l:job_id)
   endif
@@ -134,7 +134,7 @@ function! s:on_exit(job_id, data, _event) dict abort
   if v:dying | return | endif
   let l:cur_branch = join(filter(self.stdout, 'v:val =~ "*"'))
   if !empty(l:cur_branch)
-    let l:branch = substitute(l:cur_branch, '*', s:font ? "  \ue0a0" : ' Git:', '')
+    let l:branch = substitute(l:cur_branch, '*', s:font ? "  \ue0a0" : ' ', '')
     call s:SetGitBranch(self.cwd, l:branch.' ')
   else
     let err = join(self.stderr)
@@ -283,9 +283,9 @@ function! s:hi_statusline() abort
   call s:hi('ElelineTotalBuf'   , [178 , s:bg+8] , [240 , ''] )
   call s:hi('ElelinePaste'      , [232 , 178]    , [232 , 178]    , 'bold')
   call s:hi('ElelineFsize'      , [250 , s:bg+6] , [235 , ''] )
-  call s:hi('ElelineCurFname'   , [171 , s:bg+4] , [171 , '']     , 'bold' )
-  call s:hi('ElelineGitBranch'  , [184 , s:bg+2] , [89  , '']     , 'bold' )
-  call s:hi('ElelineGitStatus'  , [208 , s:bg+2] , [89  , ''])
+  call s:hi('ElelineCurFname'   , [149 , s:bg+4] , [149 , '']     , 'bold' )
+  call s:hi('ElelineGitBranch'  , [32  , s:bg+2] , [89  , '']     , 'bold' )
+  call s:hi('ElelineGitStatus'  , [89  , s:bg+2] , [89  , ''])
   call s:hi('ElelineError'      , [197 , s:bg+2] , [197 , ''])
   call s:hi('ElelineWarning'    , [214 , s:bg+2] , [214 , ''])
   call s:hi('ElelineVista'      , [149 , s:bg+2] , [149 , ''])
