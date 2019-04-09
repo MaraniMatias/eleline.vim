@@ -291,12 +291,12 @@ function! s:hi_statusline() abort
   call s:hi('ElelineVista'      , [149 , s:bg+2] , [149 , ''])
 
   if &bg ==# 'dark'
-    call s:hi('StatusLine' , [140 , s:bg+2], [140, ''] , 'none')
+    call s:hi('StatusLine' , [149 , s:bg+2], [149 , ''] , 'none')
   endif
 
-  call s:hi('Eleline7'      , [249 , s:bg+3], [237, ''] )
-  call s:hi('Eleline8'      , [250 , s:bg+4], [238, ''] )
-  call s:hi('Eleline9'      , [251 , s:bg+5], [239, ''] )
+  call s:hi('Eleline7'      , [249 , s:bg+3], [237 , ''] )
+  call s:hi('Eleline8'      , [250 , s:bg+4], [238 , ''] )
+  call s:hi('Eleline9'      , [251 , s:bg+5], [239 , ''] )
 endfunction
 
 function! s:InsertStatuslineColor(mode) abort
