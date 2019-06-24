@@ -82,6 +82,9 @@ endfunction
 
 " Reference: https://github.com/chemzqm/vimrc/blob/master/statusline.vim
 function! ElelineGitBranch(...) abort
+  if exists('g:coc_git_status')
+    return get(g:,'coc_git_status','')
+  endif
   if s:is_tmp_file() | return '' | endif
   let reload = get(a:, 1, 0) == 1
   if exists('b:eleline_branch') && !reload | return b:eleline_branch | endif
@@ -160,6 +163,9 @@ function! s:SetGitBranch(root, str) abort
 endfunction
 
 function! ElelineGitStatus() abort
+  if exists('b:coc_git_status')
+    return get(b:,'coc_git_status','').' '.get(b:,'coc_git_blame','')
+  endif
   let l:summary = [0, 0, 0]
   if exists('b:sy')
     let l:summary = b:sy.stats
@@ -340,3 +346,4 @@ augroup END
 
 let &cpoptions = s:save_cpo
 unlet s:save_cpo
+
