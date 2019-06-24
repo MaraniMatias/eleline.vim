@@ -83,7 +83,7 @@ endfunction
 " Reference: https://github.com/chemzqm/vimrc/blob/master/statusline.vim
 function! ElelineGitBranch(...) abort
   if exists('g:coc_git_status')
-    return get(g:,'coc_git_status','')
+    return ' '.get(g:,'coc_git_status','')
   endif
   if s:is_tmp_file() | return '' | endif
   let reload = get(a:, 1, 0) == 1
