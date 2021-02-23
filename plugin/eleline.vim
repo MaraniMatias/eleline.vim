@@ -18,6 +18,9 @@ let s:fn_icon = s:font ? get(g:, 'eleline_function_icon', " \uf794 ") : ''
 let s:gui = has('gui_running')
 let s:is_win = has('win32')
 let s:jobs = {}
+let g:spaceline_scroll_bar_chars = get(g:,'spaceline_scroll_bar_chars', [
+  \  '▁', '▁', '▂', '▃', '▄', '▅', '▆', '▇', '█'
+  \  ])
 
 function! ElelineBufnrWinnr() abort
   let l:bufnr = bufnr('%')
@@ -52,6 +55,24 @@ function! ElelineFsize(f) abort
   endif
   return '  '.size.' '
 endfunction
+
+function! Scrollbar() abort
+  " Zero index line number so 1/3 = 0, 2/3 = 0.5, and 3/3 = 1
+  let l:current_line = line('.') - 1
+  let l:total_lines = line('$') - 1
+
+  if l:current_line == 0
+    let l:index = 0
+  elseif l:current_line == l:total_lines
+    let l:index = -1
+  else
+    let l:line_no_fraction = floor(l:current_line) / floor(l:total_lines)
+    let l:index = float2nr(l:line_no_fraction * len(g:spaceline_scroll_bar_chars))
+  endif
+
+  return g:spaceline_scroll_bar_chars[l:index]
+endfunction
+
 
 function! ElelineCurFname() abort
   return &filetype ==# 'startify' ? '' : '  '.expand('%:p:t').' '
@@ -201,6 +222,7 @@ endfunction
 
 " https://github.com/liuchengxu/eleline.vim/wiki
 function! s:StatusLine() abort
+  let l:squeeze_width = winwidth(0) / 2
   let l:bufnr_winnr = s:def('ElelineBufnrWinnr')
   let l:paste = s:def('ElelinePaste')
   let l:curfname = s:def('ElelineCurFname')
@@ -213,20 +235,33 @@ function! s:StatusLine() abort
   let l:coc = '%{ElelineCoc()}'
   let l:vista = '%#ElelineVista#%{ElelineVista()}%*'
   let l:prefix = l:bufnr_winnr.l:paste
-  let l:common = l:curfname.l:branch.l:status.l:error.l:warning.l:tags.l:lcn.l:coc.l:vista
-  if get(g:, 'eleline_slim', 0)
-    return l:prefix.'%<'.l:common
-  endif
   let l:tot = s:def('ElelineTotalBuf')
   let l:fsize = '%#ElelineFsize#%{ElelineFsize(@%)}%*'
   let l:m_r_f = '%#Eleline7# %m%r%y %*'
-  let l:pos = '%#Eleline8# '.(s:font?"\ue0a1":'').'%l/%L:%c%V |'
-  " let l:enc = ' %{&fenc != "" ? &fenc : &enc} | %{&bomb ? ",BOM " : ""}'
+  let l:pos = '%#Eleline8# '.(s:font?"\ue0a1":'').'%l/%L:%c%V'
   let l:enc = ' %{&bomb ? ",BOM " : ""}'
   let l:ff = '%{&ff} %*'
   let l:pct = '%#Eleline9# %P %*'
-  return l:prefix.l:tot.'%<'.l:fsize.l:common
-        \ .'%='.l:m_r_f.l:pos.l:enc.l:ff.l:pct
+  let l:scroll = "%#Eleline9#%{Scrollbar()}%*"
+  " return l:prefix.l:tot.'%<'.l:fsize.l:common.'%='.l:m_r_f.l:pos." |".l:enc.l:ff.l:pct
+ 
+  let s:statusline="".l:prefix
+  if squeeze_width > 35
+   let s:statusline.=l:tot.l:fsize
+  endif
+
+  let s:statusline.='%<'.l:curfname.l:branch.l:error.l:warning
+  if squeeze_width > 35
+   let s:statusline.=l:status.l:tags.l:lcn.l:coc.l:vista
+  endif
+  let s:statusline.='%='
+
+  if squeeze_width > 35
+   " let s:statusline.=l:m_r_f.l:pos." |".l:enc.l:ff.l:pct
+   let s:statusline.=l:pos." ".l:scroll
+  endif
+
+  return s:statusline 
 endfunction
 
 let s:colors = {
