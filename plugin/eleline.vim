@@ -28,7 +28,7 @@ function! ElelineBufnrWinnr() abort
     " transform to circled num: nr2char(9311 + l:bufnr)
     let l:bufnr = l:bufnr > 20 ? l:bufnr : nr2char(9311 + l:bufnr).' '
   endif
-  return '  '.l:bufnr."❖ ".winnr().' '
+  return '  '.l:bufnr."\uf6d8 ".winnr().' '
 endfunction
 
 function! ElelineTotalBuf() abort
@@ -250,7 +250,11 @@ function! s:StatusLine() abort
    let s:statusline.=l:tot.l:fsize
   endif
 
-  let s:statusline.='%<'.l:curfname.l:branch.l:error.l:warning
+  let s:statusline.='%<'
+  if get(g:, 'mergetool_in_merge_mode', 0)
+    let s:statusline.=l:curfname
+  endif
+  let s:statusline.=l:branch.l:error.l:warning
   if squeeze_width > 35
    let s:statusline.=l:status.l:tags.l:lcn.l:coc.l:vista
   endif
